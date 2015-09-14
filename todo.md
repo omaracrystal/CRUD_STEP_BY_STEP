@@ -5,13 +5,17 @@
 2. npm install
 3. npm mongoose --save
 4. npm dotenv --save
+
 5. go into app.js and put at the top = 
 ```
 var dotenv = require('dotenv');
 dotenv.load();
 ```
+
 6. place ``.env`` at the bottom of .gitignore file
+
 7. ``touch .env`` in the route directory
+
 8. Just double check to make sure package.json has all those saved
         {
           "name": "_example",
@@ -32,13 +36,16 @@ dotenv.load();
             "swig": "^1.4.2"
           }
         }
-9. commit -m "initial commit"
+
+9. commit!
 
 ## Create Schema and connect Mongoose to .env and models
 1. Create Schema in ``models`` folder under ``server`` directory... lets call it ``llama.js``
+
 2. On top put 
 ``var mongoose = require('mongoose');``
 ``var Schema = mongoose.Schema;``
+
 3. Set up schema and structure in llamas.js
 ```
 var Llama = new Schema({
@@ -52,10 +59,12 @@ mongoose.connect(process.env.MONGO_URI);
 
 module.exports = mongoose.model("llamas", Llama) || 'mongodb://localhost/...'
 ```
+
 4. In the .env file place ``MONGO_URI=mogodb://localhost/llama`` on top... and pull the mongoose.connect to that file by writing ``process.env.MONGO_URI`` 
 
 ## Make Routes
 1. create ``api.js`` within route folder
+
 2. add this to the ``api.js`` file (same as index.js) starting point
 ```
 var express = require('express');
@@ -67,8 +76,10 @@ router.get('/', function(req, res, next) {
 
 module.exports = router;
 ```
+
 3. Pull in Schema on top of api.js
 ``var Llama = require('../models/llama.js')``
+
 4. Update api.js
 ```
 var Llama = require('../models/llama.js')
@@ -102,6 +113,7 @@ router.delete('/llama/:id', function(req, res, next) {
 
 module.exports = router;
 ```
+
 5. Let app.js that we need to connect to these routes (if all routes are in index then we don't need to add ``app.use('/api', llamas))``
 Add a new variable to //** routes **// section
 ```
@@ -117,7 +129,9 @@ app.use('/api/', llamas)
 6. Test in terminal or go to local host in url
 ``sudo mongod`` in one terminal 
 ``nodemon`` in second terminal
+
 7. Testing GET route ``http GET http://localhost:3000/api/llamas``
+
 8. Complete Post now:
  - add new instance of the Schema within the post router and save it function
  ```
@@ -144,6 +158,7 @@ or
 ``http POST -f http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
 or
 ``http POST --form http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
+
 9. set up router.get - mongoose find function ``(return res.json(llamas))``
 ```
 router.get('/llamas', function(req, res, next) {
@@ -156,7 +171,9 @@ router.get('/llamas', function(req, res, next) {
     })
 });
 ```
+
 10. Hepful resource :  mongoosejs.com/docs/api.html 
+
 11. Add get one llama
 ```
 //get one llamas
@@ -172,6 +189,7 @@ router.get('/llama/:id', function(req, res, next) {
 ```
 **TESTING**
 ``http GET http://localhost:3000/api/llama/id#``
+
 12. Setting up PUT Route
 ```
 //update one llamas
@@ -189,6 +207,7 @@ router.put('/llama/:id', function(req, res, next) {
 ```
 **TESTING**
 ``http PUT http://localhost:3000/api/llama/id# changes=change``
+
 13. Setting up DELETE Route
 ```
 //delete one llama
@@ -205,8 +224,55 @@ router.delete('/llama/:id', function(req, res, next) {
 **TESTING**
 ``http DELETE http://localhost:3000/api/llama/id#``
 
+# Set up View
+1. Create Form and Table in ``index.html`` (or create a new html file) under ``views`` on the server side
+2. Set up ids to each area of the form so that it points to each property of the schema
+3. We are going to use JSON to auto populate all llamas below the form and so we attach the id="all-lamas" to a seperate div, table, whatever
+4. Under client side in the ``main.js`` file add a payload to the form "submit" function. Then run tests throughout 
+```
+$('form').on('submit', function(e){
+    e.preventDefault();
+    var payload = {
+        name: $('#name').val(),
+        age: $('#age').val(),
+        spitter: $('#spitter').val()
+    };
+    if($('#spitter').is(:'checked')){
+        payload.spitter = true;
+    } else {
+            payload.spitter = false
+        }
+    console.log(payload) //test here or httpie
 
-
+    $.post('/api/llamas', payload, function(data){
+        $('.message-section').show(); //bootstrap, set css display: none
+        console.log(data); //test here or httpie < should have ID now
+        $('#message').html('Llama has been added!');
+        //populate the table from function below
+    getLlamas();
+    });
+})
+```
+5. Define a function outside of submit so that it will append the llama
+    - don't forget to call function in document.ready 
+```
+function getLlamas(){
+    //target table and clear out fields
+    $('#all-llamas').html('');
+    //inside ajax and iterate over all the data (all the llamas)
+    $.get('/api/llams', function(data) {
+        //test = console.log(data)-- don't forget to call function
+        for (var i=0; i < data.length; i++) {
+            $('#all-llamas').append(
+                  '<tr><td>' + data[i].name + '</td><td>' + data[i].age + '</td><td>' + data[i].spitter + '</td></tr>'
+            );
+        }
+        //clear out form and checkbox area
+        $('form input').val('');
+        $('#spitter').removeAttr('checked');
+    });
+}
+```
 
 
 
