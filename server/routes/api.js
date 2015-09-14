@@ -2,9 +2,26 @@ var express = require('express');
 var router = express.Router();
 var Llama = require('../models/llamas.js')
 
-//get all llamas
-router.get('/llamas', function(req, res, next) {
-  res.send("hello");
+//Get all llamas
+router.get('/llamas', function(req, res, next){
+  Llama.find({}, function(err, data){
+    if(err){
+        res.json({'message': err});
+    } else{
+      res.json(data);
+    }
+   });
+});
+
+//get one llama
+router.get('/llama/:id', function(req, res, next) {
+  Llama.findById(req.params.id, function(err, llama) {
+    if (err) {
+      res.json({'message': err});
+    } else {
+      res.json(llama)
+    }
+  })
 });
 
 //post llamas
@@ -24,18 +41,8 @@ router.post('/llamas', function(req, res, next) {
   })
 });
 
-//get one llamas
-router.get('/llama/:id', function(req, res, next) {
-  Llama.findById(req.params.id, function(err, llama) {
-    if (err) {
-      res.json({'message': err});
-    } else {
-      res.json(llama)
-    }
-  })
-});
 
-//update one llamas
+//update one llama
 router.put('/llama/:id', function(req, res, next) {
   //*** reference mongoosejs.com/docs/api/html ***//
   //A.findByIdAndUpdate(id, update, options, callback) // executes
