@@ -1,22 +1,21 @@
 # CRUD APP STEPS
 
 ## Project Structure
-1. ``yo galvanize-express``
-2. ``npm install``
-3. ``npm mongoose --save``
-4. ``npm dotenv --save``
-
-5. go into app.js and put at the top = 
+- Terminal 
+```
+yo galvanize-express
+npm install
+npm mongoose --save
+npm dotenv --save
+```
+- go into app.js and put at the top = 
 ```
 var dotenv = require('dotenv');
 dotenv.load();
 ```
-
-6. place ``.env`` at the bottom of ``.gitignore`` file
-
-7. ``touch .env`` in the route directory
-
-8. Just double check to make sure ``package.json`` has all those saved
+- place ``.env`` at the bottom of ``.gitignore`` file
+- ``touch .env`` in the route directory
+- Just double check to make sure ``package.json`` has all those saved
 ```
 {
   "name": "_example",
@@ -38,18 +37,18 @@ dotenv.load();
   }
 }
 ```
-9. commit!
+**commit!**
 
 ## Create Schema and connect Mongoose to .env and models
-1. Create Schema in ``models`` folder under ``server`` directory... lets call it ``llama.js``
+- Create Schema in ``models`` folder under ``server`` directory... lets call it ``llama.js``
 
-2. On top of ``llama.js``:
+- On top of ``llama.js``:
 ```
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 ```
 
-3. Now set up schema and its structure in ``llamas.js``:
+- Now set up schema and its structure in ``llamas.js``:
 ```
 var Llama = new Schema({
     name: String,
@@ -63,12 +62,12 @@ mongoose.connect(process.env.MONGO_URI); //|| 'mongodb://localhost/...'
 module.exports = mongoose.model("llamas", Llama)
 ```
 
-4. In the ``.env`` file place ``MONGO_URI=mongodb://localhost/llamas`` on top... now grab it in ``llamas.js`` file by using ``mongoose.connect`` to pull that saved URI by writing: ``process.env.MONGO_URI`` 
+- In the ``.env`` file place ``MONGO_URI=mongodb://localhost/llamas`` on top... now grab it in ``llamas.js`` file by using ``mongoose.connect`` to pull that saved URI by writing: ``process.env.MONGO_URI`` 
 
 ## Set up Routes
-1. create ``api.js`` within route folder
+- create ``api.js`` within route folder
 
-2. add this to the ``api.js`` file (same as ``index.js``) starting point
+- add this to the ``api.js`` file (same as ``index.js``) starting point
 ```
 var express = require('express');
 var router = express.Router();
@@ -80,10 +79,10 @@ router.get('/', function(req, res, next) {
 module.exports = router;
 ```
 
-3. Pull in **Schema** on top of ``api.js``
+- Pull in **Schema** on top of ``api.js``
 ``var Llama = require('../models/llama.js')``
 
-4. Update ``api.js``
+- Update ``api.js``
 ```
 var express = require('express');
 var router = express.Router();
@@ -113,7 +112,7 @@ router.delete('/llama/:id', function(req, res, next) {
 module.exports = router;
 ```
 
-5. Let's tell ``app.js`` that we need to connect to these routes (if all routes are in index then we don't need to add ``app.use('/api', llamas)``)
+- Let's tell ``app.js`` that we need to connect to these routes (if all routes are in index then we don't need to add ``app.use('/api', llamas)``)
 Go into ``app.js`` and add to the routes sections:
 ```
 //** routes **//
@@ -126,13 +125,13 @@ app.use('/api/', llamas)
 ```
 
 ## TESTING and updating Routes
-1. Test in terminal or go to local host url in browser
+- Test in terminal or go to local host url in browser
 ``sudo mongod`` in second terminal 
 ``nodemon`` in third terminal
 
-2. **Testing** in terminal the **GET router** ``http GET http://localhost:3000/api/llamas``
+- **Testing** in terminal the **GET router** ``http GET http://localhost:3000/api/llamas``
 
-3. Set up **POST router** now:
+- Set up **POST router** now:
  - add new instance of the Schema within the post router and save it function
  ```
  //post llamas
@@ -161,7 +160,7 @@ or
 http POST --form http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
 ```
 
-9. Now update **GET aLL router** 
+- Now update **GET aLL router** 
     - mongoose find function
 ```
 router.get('/llamas', function(req, res, next) {
@@ -177,9 +176,9 @@ router.get('/llamas', function(req, res, next) {
 **TESTING GET all router** in terminal:
 ``http GET http://localhost:3000/api/llamas``
 
-10. Helpful resource : [mongoosejs.com/docs/api.html](mongoosejs.com/docs/api.html)
+- Helpful resource : [mongoosejs.com/docs/api.html](mongoosejs.com/docs/api.html)
 
-11. Set up **GET one router** 
+- Set up **GET one router** 
 ```
 //get one llama
 router.get('/llama/:id', function(req, res, next) {
@@ -195,7 +194,7 @@ router.get('/llama/:id', function(req, res, next) {
 **TESTING GET one router** in terminal:
 ``http GET http://localhost:3000/api/llama/id#``
 
-12. Set up **PUT router** 
+- Set up **PUT router** 
 ```
 //update one llama
 router.put('/llama/:id', function(req, res, next) {
@@ -213,7 +212,7 @@ router.put('/llama/:id', function(req, res, next) {
 **TESTING PUT router** in terminal:
 ``http PUT http://localhost:3000/api/llama/id# changes=change``
 
-13. Setting up **DELETE router**
+- Setting up **DELETE router**
 ```
 //delete one llama
 router.delete('/llama/:id', function(req, res, next) {
@@ -230,10 +229,10 @@ router.delete('/llama/:id', function(req, res, next) {
 ``http DELETE http://localhost:3000/api/llama/id#``
 
 # Set up View
-1. Create Form, Table, whatever in ``index.html`` (or create a new html file) under ``views`` on the server side
-2. Set up **ids** to each area of the form so that it points to each property of the **schema**
-3. We are going to use **JSON** to auto populate all llamas below the form and so we attach the ``id="all-lamas"`` to a seperate div, table, whatever below the input form
-4. Under client side in the ``main.js`` file add a ``payload`` to the "submit" form function. Then run tests throughout...
+- Create Form, Table, whatever in ``index.html`` (or create a new html file) under ``views`` on the server side
+- Set up **ids** to each area of the form so that it points to each property of the **schema**
+- We are going to use **JSON** to auto populate all llamas below the form and so we attach the ``id="all-lamas"`` to a seperate div, table, whatever below the input form
+- Under client side in the ``main.js`` file add a ``payload`` to the "submit" form function. Then run tests throughout...
 ```
 $('form').on('submit', function(e){
     e.preventDefault();
@@ -261,7 +260,7 @@ $('form').on('submit', function(e){
 })
 ```
 
-5. Define a function outside of submit so that it will append the llamas
+- Define a function outside of submit so that it will append the llamas
     - don't forget to call function in **document.ready** to pre-load the data
 ```
 function getLlamas(){
