@@ -152,12 +152,14 @@ router.post('/llamas', function(req, res, next) {
   })
 });
  ```
-**Testing** in terminal **POST router** in terminal:
-``http POST http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
-or 
-``http POST -f http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
+**Testing POST router** in terminal:
+```
+http POST http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
 or
-``http POST --form http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
+http POST -f http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
+or
+http POST --form http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
+```
 
 9. Now update **GET aLL router** 
     - mongoose find function
@@ -172,7 +174,7 @@ router.get('/llamas', function(req, res, next) {
     })
 });
 ```
-**TESTING**
+**TESTING GET all router** in terminal:
 ``http GET http://localhost:3000/api/llamas``
 
 10. Helpful resource : [mongoosejs.com/docs/api.html](mongoosejs.com/docs/api.html)
@@ -190,7 +192,7 @@ router.get('/llama/:id', function(req, res, next) {
   })
 });
 ```
-**TESTING**
+**TESTING GET one router** in terminal:
 ``http GET http://localhost:3000/api/llama/id#``
 
 12. Set up **PUT router** 
@@ -208,7 +210,7 @@ router.put('/llama/:id', function(req, res, next) {
   })
 });
 ```
-**TESTING**
+**TESTING PUT router** in terminal:
 ``http PUT http://localhost:3000/api/llama/id# changes=change``
 
 13. Setting up **DELETE router**
@@ -224,7 +226,7 @@ router.delete('/llama/:id', function(req, res, next) {
   })
 });
 ```
-**TESTING**
+**TESTING DELETE router** in terminal:
 ``http DELETE http://localhost:3000/api/llama/id#``
 
 # Set up View
@@ -258,6 +260,7 @@ $('form').on('submit', function(e){
     });
 })
 ```
+
 5. Define a function outside of submit so that it will append the llamas
     - don't forget to call function in **document.ready** to pre-load the data
 ```
