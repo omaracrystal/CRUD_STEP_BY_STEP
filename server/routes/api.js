@@ -19,7 +19,7 @@ router.get('/llama/:id', function(req, res, next) {
     if (err) {
       res.json({'message': err});
     } else {
-      res.json(llama)
+      res.json(llama);
     }
   })
 });
@@ -36,7 +36,7 @@ router.post('/llamas', function(req, res, next) {
     if (err) {
       res.json({'message': err});
     } else {
-      res.json(llama)
+      res.json(llama);
     }
   })
 });
@@ -65,7 +65,7 @@ router.delete('/llama/:id', function(req, res, next) {
      if (err) {
         res.json({'message': err});
       } else {
-        res.json(llama)
+        res.json(llama);
       }
   })
 });
