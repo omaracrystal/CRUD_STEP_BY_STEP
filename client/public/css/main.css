@@ -10,3 +10,7 @@ a {
 .message-section {
   display: none;
 }
+
+.btn {
+  border-radius: 25px;
+}
