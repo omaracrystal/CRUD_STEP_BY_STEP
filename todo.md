@@ -2,21 +2,21 @@
 
 ## Project Structure
 - Terminal 
-  ```
+```
   yo galvanize-express
   npm install
   npm mongoose --save
   npm dotenv --save
-  ```
+```
 - go into app.js and put at the top = 
-  ```
+```
   var dotenv = require('dotenv');
   dotenv.load();
-  ```
+```
 - place ``.env`` at the bottom of ``.gitignore`` file
 - ``touch .env`` in the route directory
 - Just double check to make sure ``package.json`` has all those saved
-  ```
+```
   {
     "name": "_example",
     "version": "0.0.0",
@@ -36,20 +36,20 @@
       "swig": "^1.4.2"
     }
   }
-  ```
+```
 **commit!**
 
 ## Create Schema and connect Mongoose to .env and models
 - Create Schema in ``models`` folder under ``server`` directory... lets call it ``llama.js``
 
 - On top of ``llama.js``:
-  ```
+```
   var mongoose = require('mongoose');
   var Schema = mongoose.Schema;
-  ```
+```
 
 - Now set up schema and its structure in ``llamas.js``:
-  ```
+```
   var Llama = new Schema({
       name: String,
       age: Number,
@@ -60,7 +60,7 @@
   mongoose.connect(process.env.MONGO_URI); //|| 'mongodb://localhost/...'
 
   module.exports = mongoose.model("llamas", Llama)
-  ```
+```
 
 - In the ``.env`` file place ``MONGO_URI=mongodb://localhost/llamas`` on top... now grab it in ``llamas.js`` file by using ``mongoose.connect`` to pull that saved URI by writing: ``process.env.MONGO_URI`` 
 
@@ -68,7 +68,7 @@
 - create ``api.js`` within route folder
 
 - add this to the ``api.js`` file (same as ``index.js``) starting point
-  ```
+```
   var express = require('express');
   var router = express.Router();
 
@@ -77,13 +77,13 @@
   });
 
   module.exports = router;
-  ```
+```
 
 - Pull in **Schema** on top of ``api.js``
 ``var Llama = require('../models/llama.js')``
 
 - Update ``api.js``
-  ```
+```
   var express = require('express');
   var router = express.Router();
   var Llama = require('../models/llamas.js')
@@ -110,7 +110,7 @@
   });
 
   module.exports = router;
-  ```
+```
 
 - Let's tell ``app.js`` that we need to connect to these routes (if all routes are in index then we don't need to add ``app.use('/api', llamas)``)
 Go into ``app.js`` and add to the routes sections:
@@ -133,7 +133,7 @@ Go into ``app.js`` and add to the routes sections:
 
 - Set up **POST router** now:
  - add new instance of the Schema within the post router and save it function
-   ```
+```
    //post llamas
   router.post('/llamas', function(req, res, next) {
     // or var newLlama = new Llama(req.body);
@@ -150,15 +150,15 @@ Go into ``app.js`` and add to the routes sections:
       }
     })
   });
-   ```
+```
 **Testing POST router** in terminal:
-  ```
+```
   http POST http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
   or
   http POST -f http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
   or
   http POST --form http://localhost:3000/api/llamas name="Tina" age=12 spitter=true``
-  ```
+```
 
 - Now update **GET aLL router** 
     - mongoose find function
@@ -179,7 +179,7 @@ Go into ``app.js`` and add to the routes sections:
 - Helpful resource : [mongoosejs.com/docs/api.html](mongoosejs.com/docs/api.html)
 
 - Set up **GET one router** 
-  ```
+```
   //get one llama
   router.get('/llama/:id', function(req, res, next) {
     Llama.findById(req.params.id, function(err, llama) {
@@ -190,12 +190,12 @@ Go into ``app.js`` and add to the routes sections:
       }
     })
   });
-  ```
+```
 **TESTING GET one router** in terminal:
   ``http GET http://localhost:3000/api/llama/id#``
 
 - Set up **PUT router** 
-  ```
+```
   //update one llama
   router.put('/llama/:id', function(req, res, next) {
     //adding {new:true} in the third passed agrument this will output the updates in the terminal instead of the original
@@ -208,12 +208,12 @@ Go into ``app.js`` and add to the routes sections:
       }
     })
   });
-  ```
+```
 **TESTING PUT router** in terminal:
   ``http PUT http://localhost:3000/api/llama/id# changes=change``
 
 - Setting up **DELETE router**
-  ```
+```
   //delete one llama
   router.delete('/llama/:id', function(req, res, next) {
     Llama.findByIdAndRemove(req.params.id, function(err, llama) {
@@ -224,7 +224,7 @@ Go into ``app.js`` and add to the routes sections:
         }
     })
   });
-  ```
+```
 **TESTING DELETE router** in terminal:
   ``http DELETE http://localhost:3000/api/llama/id#``
 
@@ -233,7 +233,7 @@ Go into ``app.js`` and add to the routes sections:
 - Set up **ids** to each area of the form so that it points to each property of the **schema**
 - We are going to use **JSON** to auto populate all llamas below the form and so we attach the ``id="all-lamas"`` to a seperate div, table, whatever below the input form
 - Under client side in the ``main.js`` file add a ``payload`` to the "submit" form function. Then run tests throughout...
-  ```
+```
   $('form').on('submit', function(e){
       e.preventDefault();
       var payload = {
@@ -258,11 +258,11 @@ Go into ``app.js`` and add to the routes sections:
           getLlamas();
       });
   })
-  ```
+```
 
   + Define a function outside of submit so that it will append the llamas
       + don't forget to call function in **document.ready** to pre-load the data
-  ```
+```
   function getLlamas(){
       //target table and clear out fields
       $('#all-llamas').html('');
@@ -280,7 +280,7 @@ Go into ``app.js`` and add to the routes sections:
           $('#spitter').removeAttr('checked');
       });
   }
-  ```
+```
 
 # THE END!
 
