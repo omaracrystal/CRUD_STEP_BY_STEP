@@ -5,8 +5,8 @@
 ```
   yo galvanize-express
   npm install
-  npm mongoose --save
-  npm dotenv --save
+  npm install mongoose --save
+  npm install dotenv --save
 ```
 - go into app.js and put at the top = 
 ```
